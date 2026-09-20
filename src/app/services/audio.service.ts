@@ -88,6 +88,26 @@ export class AudioService {
   }
 
   /**
+   * Glissando celestial de arpa cuando la flor florece de par en par
+   */
+  playBloomSound() {
+    if (this.isMuted()) return;
+    const notes = [
+      392.0,   // G4
+      523.25,  // C5
+      659.25,  // E5
+      783.99,  // G5
+      987.77,  // B5
+      1046.5,  // C6
+      1318.51, // E6
+      1567.98, // G6
+    ];
+    notes.forEach((freq, idx) => {
+      this.playNote(freq, 2.2, idx * 0.12, 0.07);
+    });
+  }
+
+  /**
    * Inicia la melodía romántica acústica continua de fondo
    * Una progresión tierna y nostálgica (inspirada en melodías de primavera y flores amarillas)
    */

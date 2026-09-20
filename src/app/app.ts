@@ -36,14 +36,19 @@ export class App {
     // Iniciar crecimiento y apertura de flor
     setTimeout(() => {
       this.isFlowerBloomed.set(true);
-      this.particlesComponent?.burstPetals(30);
+      this.particlesComponent?.burstPetals(35);
     }, 100);
+
+    // Momento mágico en el clímax del florecimiento
+    setTimeout(() => {
+      this.audioService.playBloomSound();
+      this.particlesComponent?.burstPetals(25);
+    }, 1800);
 
     // Mostrar carta con mensaje emotivo una vez florecido
     setTimeout(() => {
       this.appState.set('revealed');
-      this.audioService.playSparkleChime();
-    }, 2800);
+    }, 3200);
   }
 
   onFlowerClicked() {
@@ -67,11 +72,16 @@ export class App {
 
     setTimeout(() => {
       this.isFlowerBloomed.set(true);
-      this.particlesComponent?.burstPetals(25);
+      this.particlesComponent?.burstPetals(30);
     }, 300);
 
     setTimeout(() => {
+      this.audioService.playBloomSound();
+      this.particlesComponent?.burstPetals(20);
+    }, 2000);
+
+    setTimeout(() => {
       this.appState.set('revealed');
-    }, 2800);
+    }, 3200);
   }
 }
