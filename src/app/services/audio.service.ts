@@ -130,60 +130,113 @@ export class AudioService {
   }
 
   /**
-   * Inicia la melodía romántica acústica continua de fondo
-   * Una progresión tierna y nostálgica (inspirada en melodías de primavera y flores amarillas)
+   * Inicia la melodía oficial del coro de "Flores Amarillas" (Floricienta)
+   * "Ella sabía que él sabía, que algún día pasaría, que vendría a buscarla con sus flores amarillas..."
    */
   startMelody() {
     if (this.isPlaying()) return;
     this.isPlaying.set(true);
 
-    // Frecuencias para notas musicales (C4, D4, E4, F4, G4, A4, B4, C5, etc.)
-    const notes = {
-      C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.0, A4: 440.0, B4: 493.88,
-      C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.0,
-    };
+    const D4 = 293.66;
+    const E4 = 329.63;
+    const Fs4 = 369.99;
+    const G4 = 392.00;
+    const A4 = 440.00;
+    const B4 = 493.88;
+    const C5 = 523.25;
+    const D5 = 587.33;
+    const E5 = 659.25;
 
-    // Secuencia de arpegios suaves
-    const phrase = [
-      // Acorde C (Do Mayor)
-      { note: notes.C4, delay: 0 },
-      { note: notes.E4, delay: 0.35 },
-      { note: notes.G4, delay: 0.7 },
-      { note: notes.C5, delay: 1.05 },
-      { note: notes.E5, delay: 1.4 },
-      { note: notes.C5, delay: 1.75 },
+    // Bajo de acompañamiento (octava 3)
+    const G3 = 196.00;
+    const D3 = 146.83;
+    const E3 = 164.81;
+    const C3 = 130.81;
 
-      // Acorde G (Sol Mayor)
-      { note: notes.G4, delay: 2.2 },
-      { note: notes.B4, delay: 2.55 },
-      { note: notes.D5, delay: 2.9 },
-      { note: notes.G5, delay: 3.25 },
-      { note: notes.D5, delay: 3.6 },
-      { note: notes.B4, delay: 3.95 },
+    // Melodía completa del coro icónico de Flores Amarillas con bajos armónicos
+    const song: { note: number; duration: number; delay: number; bass?: number; gain?: number }[] = [
+      // Acorde G: "Ella sabía..."
+      { note: G4, duration: 0.35, delay: 0.0, bass: G3, gain: 0.09 },
+      { note: G4, duration: 0.35, delay: 0.35 },
+      { note: A4, duration: 0.35, delay: 0.7 },
+      { note: B4, duration: 0.6, delay: 1.05 },
 
-      // Acorde Am (La menor)
-      { note: notes.A4, delay: 4.4 },
-      { note: notes.C5, delay: 4.75 },
-      { note: notes.E5, delay: 5.1 },
-      { note: notes.A5, delay: 5.45 },
-      { note: notes.E5, delay: 5.8 },
-      { note: notes.C5, delay: 6.15 },
+      // Acorde D: "...que él sabía..."
+      { note: B4, duration: 0.35, delay: 1.7, bass: D3, gain: 0.09 },
+      { note: C5, duration: 0.35, delay: 2.05 },
+      { note: B4, duration: 0.35, delay: 2.4 },
+      { note: A4, duration: 0.6, delay: 2.75 },
 
-      // Acorde F (Fa Mayor)
-      { note: notes.F4, delay: 6.6 },
-      { note: notes.A4, delay: 6.95 },
-      { note: notes.C5, delay: 7.3 },
-      { note: notes.F5, delay: 7.65 },
-      { note: notes.E5, delay: 8.0 },
-      { note: notes.D5, delay: 8.35 },
+      // Acorde Em: "...que algún día pasaría..."
+      { note: A4, duration: 0.32, delay: 3.4, bass: E3, gain: 0.09 },
+      { note: G4, duration: 0.32, delay: 3.72 },
+      { note: A4, duration: 0.32, delay: 4.04 },
+      { note: B4, duration: 0.38, delay: 4.36 },
+      { note: G4, duration: 0.38, delay: 4.74 },
+      { note: E4, duration: 0.6, delay: 5.12 },
+
+      // Acorde C: "...que vendría a buscarla..."
+      { note: D4, duration: 0.32, delay: 5.75, bass: C3, gain: 0.09 },
+      { note: E4, duration: 0.32, delay: 6.07 },
+      { note: G4, duration: 0.32, delay: 6.39 },
+      { note: A4, duration: 0.35, delay: 6.71 },
+      { note: B4, duration: 0.4, delay: 7.06 },
+      { note: D5, duration: 0.55, delay: 7.46 },
+
+      // Acorde G: "...con sus flores amarillas."
+      { note: B4, duration: 0.35, delay: 8.1, bass: G3, gain: 0.09 },
+      { note: A4, duration: 0.35, delay: 8.45 },
+      { note: G4, duration: 0.35, delay: 8.8 },
+      { note: A4, duration: 0.35, delay: 9.15 },
+      { note: G4, duration: 1.2, delay: 9.5 },
+
+      // Segunda parte del coro
+      // Acorde G: "No te apures..."
+      { note: G4, duration: 0.35, delay: 11.0, bass: G3, gain: 0.09 },
+      { note: G4, duration: 0.35, delay: 11.35 },
+      { note: A4, duration: 0.35, delay: 11.7 },
+      { note: B4, duration: 0.55, delay: 12.05 },
+
+      // Acorde D: "...no detengas..."
+      { note: B4, duration: 0.35, delay: 12.65, bass: D3, gain: 0.09 },
+      { note: C5, duration: 0.35, delay: 13.0 },
+      { note: B4, duration: 0.35, delay: 13.35 },
+      { note: A4, duration: 0.55, delay: 13.7 },
+
+      // Acorde Em: "...el instante del encuentro..."
+      { note: A4, duration: 0.32, delay: 14.3, bass: E3, gain: 0.09 },
+      { note: G4, duration: 0.32, delay: 14.62 },
+      { note: A4, duration: 0.32, delay: 14.94 },
+      { note: B4, duration: 0.35, delay: 15.26 },
+      { note: C5, duration: 0.35, delay: 15.61 },
+      { note: D5, duration: 0.45, delay: 15.96 },
+      { note: B4, duration: 0.55, delay: 16.41 },
+
+      // Acorde C: "...no te olvides que la vida..."
+      { note: G4, duration: 0.32, delay: 17.1, bass: C3, gain: 0.09 },
+      { note: A4, duration: 0.32, delay: 17.42 },
+      { note: B4, duration: 0.35, delay: 17.74 },
+      { note: D5, duration: 0.4, delay: 18.09 },
+      { note: C5, duration: 0.35, delay: 18.49 },
+      { note: B4, duration: 0.35, delay: 18.84 },
+      { note: A4, duration: 0.55, delay: 19.19 },
+
+      // Acorde G: "...casi nunca está dormida."
+      { note: A4, duration: 0.35, delay: 19.8, bass: G3, gain: 0.09 },
+      { note: B4, duration: 0.35, delay: 20.15 },
+      { note: A4, duration: 0.4, delay: 20.5 },
+      { note: G4, duration: 1.8, delay: 20.9 },
     ];
 
-    const phraseLength = 9.0; // Segundos por ciclo
+    const phraseLength = 23.5; // Segundos por ciclo completo del coro
 
     const playCycle = () => {
       if (!this.isPlaying()) return;
-      phrase.forEach(item => {
-        this.playNote(item.note, 2.0, item.delay, 0.05);
+      song.forEach(item => {
+        this.playNote(item.note, item.duration + 0.5, item.delay, item.gain || 0.075);
+        if (item.bass) {
+          this.playNote(item.bass, 2.5, item.delay, 0.04);
+        }
       });
       this.loopTimer = setTimeout(playCycle, phraseLength * 1000);
     };

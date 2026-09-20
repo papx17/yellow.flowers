@@ -35,6 +35,18 @@ interface Sparkle {
   color: string;
 }
 
+interface MiniFlower {
+  x: number;
+  y: number;
+  size: number;
+  speedY: number;
+  speedX: number;
+  rotation: number;
+  rotationSpeed: number;
+  opacity: number;
+  isWhite: boolean;
+}
+
 @Component({
   selector: 'app-particles',
   standalone: true,
@@ -62,6 +74,8 @@ export class ParticlesComponent implements OnInit, OnDestroy {
 
   private petals: Petal[] = [];
   private sparkles: Sparkle[] = [];
+  private miniFlowers: MiniFlower[] = [];
+  isSecretMode = false;
 
   private petalColors = [
     '#fef08a', // yellow-200
@@ -147,9 +161,20 @@ export class ParticlesComponent implements OnInit, OnDestroy {
     };
   }
 
-  /**
-   * Dispara una explosión festiva de pétalos dorados
-   */
+  private createMiniFlower(x: number, y: number): MiniFlower {
+    return {
+      x,
+      y,
+      size: 8 + Math.random() * 10,
+      speedY: 0.6 + Math.random() * 1.2,
+      speedX: (Math.random() - 0.5) * 0.8,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 2,
+      opacity: 0.6 + Math.random() * 0.35,
+      isWhite: true,
+    };
+  }
+
   burstPetals(count = 25) {
     const w = window.innerWidth;
     for (let i = 0; i < count; i++) {
@@ -161,24 +186,39 @@ export class ParticlesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Dispara una explosión de destellos blancos, plateados y celestes celestiales
+   * Dispara una explosión masiva de flores y destellos celestiales
    */
-  burstWhiteSparks(count = 35) {
+  burstWhiteSparks(count = 50) {
     const w = window.innerWidth;
     const celestialColors = ['#ffffff', '#e0f2fe', '#bae6fd', '#fef08a', '#f3e8ff'];
     for (let i = 0; i < count; i++) {
-      const p = this.createPetal(w * 0.15 + Math.random() * (w * 0.7), -20 - Math.random() * 80);
-      p.speedY = 1.2 + Math.random() * 2.2;
-      p.size = 12 + Math.random() * 10;
+      const p = this.createPetal(w * 0.1 + Math.random() * (w * 0.8), -20 - Math.random() * 120);
+      p.speedY = 1.2 + Math.random() * 2.5;
+      p.size = 12 + Math.random() * 12;
       p.color = celestialColors[Math.floor(Math.random() * celestialColors.length)];
-      p.opacity = 0.8;
+      p.opacity = 0.85;
       this.petals.push(p);
 
-      const s = this.createSparkle(w * 0.2 + Math.random() * (w * 0.6), window.innerHeight * 0.4 + (Math.random() - 0.5) * 200);
+      const s = this.createSparkle(w * 0.1 + Math.random() * (w * 0.8), window.innerHeight * 0.5 + (Math.random() - 0.5) * 300);
       s.color = '#ffffff';
-      s.radius = 2.5 + Math.random() * 2.5;
+      s.radius = 2.5 + Math.random() * 3;
       s.alpha = 1;
       this.sparkles.push(s);
+    }
+
+    // Disparar oleada de mini flores flotantes
+    for (let i = 0; i < 24; i++) {
+      this.miniFlowers.push(this.createMiniFlower(Math.random() * w, -30 - Math.random() * 150));
+    }
+  }
+
+  setSecretMode(active: boolean) {
+    this.isSecretMode = active;
+    if (active && this.miniFlowers.length < 15) {
+      const w = window.innerWidth;
+      for (let i = 0; i < 20; i++) {
+        this.miniFlowers.push(this.createMiniFlower(Math.random() * w, Math.random() * window.innerHeight));
+      }
     }
   }
 
@@ -198,7 +238,7 @@ export class ParticlesComponent implements OnInit, OnDestroy {
 
     this.ctx.clearRect(0, 0, w, h);
 
-    // Dibujar destellos de polen / luciérnagas
+    // 1. Dibujar destellos de polen / luciérnagas
     for (const s of this.sparkles) {
       s.y += s.speedY;
       s.x += s.speedX;
@@ -218,12 +258,12 @@ export class ParticlesComponent implements OnInit, OnDestroy {
       this.ctx.fillStyle = s.color;
       this.ctx.globalAlpha = Math.max(0, Math.min(1, s.alpha));
       this.ctx.shadowBlur = 8;
-      this.ctx.shadowColor = '#facc15';
+      this.ctx.shadowColor = this.isSecretMode ? '#bae6fd' : '#facc15';
       this.ctx.fill();
       this.ctx.restore();
     }
 
-    // Dibujar pétalos flotantes
+    // 2. Dibujar pétalos flotantes
     for (let i = this.petals.length - 1; i >= 0; i--) {
       const p = this.petals[i];
       p.y += p.speedY;
@@ -231,9 +271,8 @@ export class ParticlesComponent implements OnInit, OnDestroy {
       p.rotation += p.rotationSpeed;
       p.flip += p.flipSpeed;
 
-      // Si sobrepasa el fondo, reubicar arriba
       if (p.y > h + 30) {
-        if (this.petals.length > 50) {
+        if (this.petals.length > 60) {
           this.petals.splice(i, 1);
           continue;
         }
@@ -247,7 +286,6 @@ export class ParticlesComponent implements OnInit, OnDestroy {
       this.ctx.scale(Math.cos(p.flip), 1);
 
       this.ctx.beginPath();
-      // Forma de pétalo curvo orgánico
       this.ctx.moveTo(0, 0);
       this.ctx.bezierCurveTo(
         -p.size * 0.6,
@@ -269,16 +307,50 @@ export class ParticlesComponent implements OnInit, OnDestroy {
       this.ctx.fillStyle = p.color;
       this.ctx.globalAlpha = p.opacity;
       this.ctx.shadowBlur = 4;
-      this.ctx.shadowColor = 'rgba(234, 179, 8, 0.4)';
+      this.ctx.shadowColor = this.isSecretMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(234, 179, 8, 0.4)';
       this.ctx.fill();
+      this.ctx.restore();
+    }
 
-      // Línea de nervadura central del pétalo
+    // 3. Dibujar mini flores celestiales flotantes en modo secreto
+    for (let i = this.miniFlowers.length - 1; i >= 0; i--) {
+      const mf = this.miniFlowers[i];
+      mf.y += mf.speedY;
+      mf.x += Math.sin(mf.rotation * 0.02) * 0.6 + mf.speedX;
+      mf.rotation += mf.rotationSpeed;
+
+      if (mf.y > h + 30) {
+        if (!this.isSecretMode || this.miniFlowers.length > 35) {
+          this.miniFlowers.splice(i, 1);
+          continue;
+        }
+        mf.y = -20;
+        mf.x = Math.random() * w;
+      }
+
+      this.ctx.save();
+      this.ctx.translate(mf.x, mf.y);
+      this.ctx.rotate((mf.rotation * Math.PI) / 180);
+      this.ctx.globalAlpha = mf.opacity;
+
+      // 6 pétalos de flor blanca
+      for (let j = 0; j < 6; j++) {
+        this.ctx.save();
+        this.ctx.rotate((j * 60 * Math.PI) / 180);
+        this.ctx.beginPath();
+        this.ctx.ellipse(0, -mf.size * 0.7, mf.size * 0.35, mf.size * 0.6, 0, 0, Math.PI * 2);
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.shadowBlur = 6;
+        this.ctx.shadowColor = '#e0f2fe';
+        this.ctx.fill();
+        this.ctx.restore();
+      }
+
+      // Centro dorado
       this.ctx.beginPath();
-      this.ctx.moveTo(0, 0);
-      this.ctx.lineTo(0, -p.size * 1.3);
-      this.ctx.strokeStyle = 'rgba(217, 119, 6, 0.3)';
-      this.ctx.lineWidth = 1;
-      this.ctx.stroke();
+      this.ctx.arc(0, 0, mf.size * 0.3, 0, Math.PI * 2);
+      this.ctx.fillStyle = '#facc15';
+      this.ctx.fill();
 
       this.ctx.restore();
     }

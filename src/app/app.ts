@@ -27,6 +27,7 @@ export class App {
   isFlowerBloomed = signal(false);
   isSecretMode = signal(false);
   phraseIndex = signal(0);
+  viewMode = signal<'bouquet' | 'meadow'>('bouquet');
 
   readonly isAudioMuted = this.audioService.muted;
 
@@ -120,13 +121,14 @@ export class App {
   }
 
   /**
-   * Activa el modo secreto: La flor más hermosa del mundo para Katze
+   * Activa el modo secreto: La flor más hermosa del mundo para Katze (Muchísimas más flores)
    */
   activateSecretMode() {
     this.isSecretMode.set(true);
     this.audioService.startMelody();
     this.audioService.playSecretChime();
-    this.particlesComponent?.burstWhiteSparks(50);
+    this.particlesComponent?.setSecretMode(true);
+    this.particlesComponent?.burstWhiteSparks(60);
 
     if (this.appState() === 'intro') {
       this.appState.set('blooming');
@@ -137,7 +139,7 @@ export class App {
         this.appState.set('revealed');
       }, 2500);
     } else {
-      // Si ya estaba en la pradera, revivir florecimiento celestial
+      // Si ya estaba en la vista, reiniciar para una explosión masiva
       this.isFlowerBloomed.set(false);
       setTimeout(() => {
         this.isFlowerBloomed.set(true);
@@ -148,7 +150,16 @@ export class App {
 
   exitSecretMode() {
     this.isSecretMode.set(false);
+    this.particlesComponent?.setSecretMode(false);
     this.audioService.playSparkleChime();
     this.particlesComponent?.burstPetals(35);
+  }
+
+  setViewMode(mode: 'bouquet' | 'meadow') {
+    this.viewMode.set(mode);
+    this.audioService.playSparkleChime();
+    if (mode === 'bouquet') {
+      this.particlesComponent?.burstPetals(20);
+    }
   }
 }

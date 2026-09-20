@@ -47,10 +47,28 @@ export interface EmotionPhrase {
           </span>
         </div>
         <div
-          class="text-xs font-sans-custom"
-          [ngClass]="isSecretMode ? 'text-white/70' : 'text-amber-200/60'"
+          class="text-xs font-sans-custom flex items-center gap-2"
         >
-          {{ isSecretMode ? 'Para Katze ✨' : '21 de Septiembre' }}
+          @if (!isSecretMode) {
+            <div class="inline-flex rounded-full bg-slate-900/60 p-0.5 border border-amber-300/30 text-[10px]">
+              <button
+                (click)="onSetViewMode('bouquet')"
+                class="px-2 py-0.5 rounded-full transition-all"
+                [ngClass]="viewMode === 'bouquet' ? 'bg-amber-400 text-slate-950 font-bold shadow' : 'text-amber-200/70 hover:text-white'"
+              >
+                💐 Ramillete
+              </button>
+              <button
+                (click)="onSetViewMode('meadow')"
+                class="px-2 py-0.5 rounded-full transition-all"
+                [ngClass]="viewMode === 'meadow' ? 'bg-amber-400 text-slate-950 font-bold shadow' : 'text-amber-200/70 hover:text-white'"
+              >
+                🌾 Pradera
+              </button>
+            </div>
+          } @else {
+            <span class="text-white/70">Para Katze ✨</span>
+          }
         </div>
       </div>
 
@@ -205,12 +223,14 @@ export class LetterModalComponent {
   @Input() isAudioMuted = false;
   @Input() isSecretMode = false;
   @Input() phraseIndex = 0;
+  @Input() viewMode: 'bouquet' | 'meadow' = 'bouquet';
 
   @Output() burstPetals = new EventEmitter<void>();
   @Output() toggleAudio = new EventEmitter<void>();
   @Output() replayBloom = new EventEmitter<void>();
   @Output() changePhrase = new EventEmitter<void>();
   @Output() exitSecretMode = new EventEmitter<void>();
+  @Output() setViewMode = new EventEmitter<'bouquet' | 'meadow'>();
 
   recipientName = 'Mi Persona Favorita 💛';
   isEditingName = signal(false);
@@ -287,5 +307,9 @@ export class LetterModalComponent {
 
   onExitSecretMode() {
     this.exitSecretMode.emit();
+  }
+
+  onSetViewMode(mode: 'bouquet' | 'meadow') {
+    this.setViewMode.emit(mode);
   }
 }

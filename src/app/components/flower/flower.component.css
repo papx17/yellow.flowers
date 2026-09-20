@@ -8,6 +8,24 @@
   animation: naturalBreeze 7s ease-in-out infinite alternate;
 }
 
+/* Modo Secreto de Katze: Cubrir todo el espacio izquierdo de la pantalla con flores */
+.flower-container.is-secret-leftside {
+  width: 100%;
+  height: 100%;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.45));
+}
+
+.flower-container.is-secret-leftside svg {
+  width: 100%;
+  height: auto;
+  max-width: 1050px;
+}
+
 @keyframes naturalBreeze {
   0% {
     transform: rotate(0deg);
@@ -191,5 +209,98 @@
   to {
     transform: rotate(360deg) translateX(var(--orbit-r, 70px)) rotate(-360deg);
     opacity: 0.2;
+  }
+}
+
+/* ================= ANIMACIONES DEL RAMILLETE / BOUQUET ================= */
+.bouquet-wrap-back,
+.bouquet-wrap-front {
+  transform-origin: 250px 420px;
+  transform: scale(0.6);
+  opacity: 0;
+  transition: all 1.8s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.bouquet-wrap-back.bloomed,
+.bouquet-wrap-front.bloomed {
+  transform: scale(1);
+  opacity: 1;
+  transition-delay: 0.8s;
+}
+
+.bouquet-foliage {
+  transform-origin: 250px 300px;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 1.4s ease-out;
+}
+
+.bouquet-foliage.bloomed {
+  transform: scale(1);
+  opacity: 1;
+  transition-delay: 1.2s;
+}
+
+/* Lazo de seda con balanceo */
+.bouquet-ribbon-group {
+  transform-origin: 250px 420px;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 1.4s cubic-bezier(0.34, 1.5, 0.64, 1);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
+}
+
+.bouquet-ribbon-group.bloomed {
+  transform: scale(1);
+  opacity: 1;
+  transition-delay: 1.6s;
+}
+
+/* Ondeo suave de las colas de cinta */
+.ribbon-tail-left {
+  transform-origin: 245px 422px;
+  animation: ribbonWaveLeft 5s ease-in-out infinite alternate;
+}
+
+@keyframes ribbonWaveLeft {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(3deg) skewX(2deg);
+  }
+  100% {
+    transform: rotate(-2deg) skewX(-1deg);
+  }
+}
+
+.ribbon-tail-right {
+  transform-origin: 255px 422px;
+  animation: ribbonWaveRight 5.4s ease-in-out infinite alternate;
+}
+
+@keyframes ribbonWaveRight {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-3deg) skewX(-2deg);
+  }
+  100% {
+    transform: rotate(2deg) skewX(1deg);
+  }
+}
+
+/* Nubes de gypsophila floreciendo */
+.gypsophila-cloud {
+  animation: gypsoFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes gypsoFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-3px);
   }
 }
