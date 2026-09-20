@@ -1,0 +1,110 @@
+/* Contenedor principal de la flor con brisa suave cuando está florecida */
+.flower-container {
+  transform-origin: bottom center;
+}
+
+.flower-container.is-bloomed {
+  animation: gentleBreeze 6s ease-in-out infinite alternate;
+}
+
+@keyframes gentleBreeze {
+  0% {
+    transform: rotate(0deg);
+  }
+  35% {
+    transform: rotate(1.8deg) translateY(-2px);
+  }
+  70% {
+    transform: rotate(-1.5deg) translateY(0px);
+  }
+  100% {
+    transform: rotate(0.8deg) translateY(-1px);
+  }
+}
+
+/* Crecimiento del tallo */
+.stem-grow {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  transition: stroke-dashoffset 2.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stem-grow.grown {
+  stroke-dashoffset: 0;
+}
+
+/* Hojas que se despliegan */
+.leaf {
+  transform-origin: center bottom;
+  transform: scale(0) rotate(-15deg);
+  opacity: 0;
+  transition: all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.leaf.leaf-left.grown {
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+  transition-delay: 1.2s;
+}
+
+.leaf.leaf-right.grown {
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+  transition-delay: 1.5s;
+}
+
+/* Corona de pétalos abriéndose */
+.flower-head {
+  transform-origin: 250px 170px;
+  transition: transform 0.6s ease;
+}
+
+.petal-layer {
+  transform-origin: 250px 170px;
+}
+
+.petal {
+  transform-origin: 250px 170px;
+  transform: scale(0.01) rotate(var(--angle, 0deg));
+  opacity: 0;
+  transition: transform 1.6s cubic-bezier(0.2, 0.8, 0.2, 1.15), opacity 1.2s ease;
+}
+
+.petal.bloomed {
+  transform: scale(1) rotate(var(--angle, 0deg));
+  opacity: 1;
+}
+
+/* Destello del centro floral */
+.flower-center {
+  transform-origin: 250px 170px;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.flower-center.bloomed {
+  transform: scale(1);
+  opacity: 1;
+  transition-delay: 2.2s;
+}
+
+.center-glow {
+  animation: sunGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes sunGlow {
+  0% {
+    r: 34;
+    opacity: 0.5;
+  }
+  100% {
+    r: 44;
+    opacity: 0.9;
+  }
+}
+
+/* Efecto de destello interactivo al pasar el mouse */
+.flower-head:hover .flower-center {
+  filter: drop-shadow(0 0 20px #f59e0b);
+}
