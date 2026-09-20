@@ -108,6 +108,28 @@ export class AudioService {
   }
 
   /**
+   * Melodía mágica y celestial especial cuando se activa la flor secreta de Katze
+   */
+  playSecretChime() {
+    if (this.isMuted()) return;
+    // Acorde místico de campanas de cristal (F#madd9 / E / Dmaj7 estelar)
+    const secretNotes = [
+      440.0,   // A4
+      554.37,  // C#5
+      659.25,  // E5
+      739.99,  // F#5
+      880.0,   // A5
+      1108.73, // C#6
+      1318.51, // E6
+      1661.22, // G#6
+      1760.0,  // A6
+    ];
+    secretNotes.forEach((freq, idx) => {
+      this.playNote(freq, 3.0, idx * 0.14, 0.09);
+    });
+  }
+
+  /**
    * Inicia la melodía romántica acústica continua de fondo
    * Una progresión tierna y nostálgica (inspirada en melodías de primavera y flores amarillas)
    */

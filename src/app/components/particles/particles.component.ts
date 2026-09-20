@@ -160,6 +160,28 @@ export class ParticlesComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Dispara una explosión de destellos blancos, plateados y celestes celestiales
+   */
+  burstWhiteSparks(count = 35) {
+    const w = window.innerWidth;
+    const celestialColors = ['#ffffff', '#e0f2fe', '#bae6fd', '#fef08a', '#f3e8ff'];
+    for (let i = 0; i < count; i++) {
+      const p = this.createPetal(w * 0.15 + Math.random() * (w * 0.7), -20 - Math.random() * 80);
+      p.speedY = 1.2 + Math.random() * 2.2;
+      p.size = 12 + Math.random() * 10;
+      p.color = celestialColors[Math.floor(Math.random() * celestialColors.length)];
+      p.opacity = 0.8;
+      this.petals.push(p);
+
+      const s = this.createSparkle(w * 0.2 + Math.random() * (w * 0.6), window.innerHeight * 0.4 + (Math.random() - 0.5) * 200);
+      s.color = '#ffffff';
+      s.radius = 2.5 + Math.random() * 2.5;
+      s.alpha = 1;
+      this.sparkles.push(s);
+    }
+  }
+
   private startAnimation() {
     const render = () => {
       this.draw();

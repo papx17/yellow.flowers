@@ -26,6 +26,23 @@
   }
 }
 
+/* Animación de balanceo orgánico de las flores acompañantes en la pradera */
+.companion-flower {
+  animation: meadowSway 6s ease-in-out infinite alternate;
+}
+
+@keyframes meadowSway {
+  0% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(2.5deg) translateY(-3px);
+  }
+  100% {
+    transform: rotate(-2.2deg) translateY(1px);
+  }
+}
+
 /* Rotación lenta de los Rayos Celestiales (God Rays) */
 .god-rays-container {
   animation: spinGodRays 60s linear infinite;

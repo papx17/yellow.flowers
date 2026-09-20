@@ -3,15 +3,15 @@
   [class.is-bloomed]="isBloomed"
   [style.transform]="'perspective(1000px) rotateY(' + tiltX() + 'deg) rotateX(' + -tiltY() + 'deg)'"
   (click)="onFlowerClick()"
-  title="Toca la flor para escuchar destellos mágicos ✨"
+  [title]="isSecretMode ? 'Flor celestial para Katze ✨' : 'Toca la pradera para escuchar destellos mágicos ✨'"
 >
   <svg
-    viewBox="0 0 500 560"
-    class="w-full max-w-[440px] md:max-w-[520px] h-auto drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)] overflow-visible"
+    viewBox="-180 -40 860 620"
+    class="w-full max-w-[540px] md:max-w-[650px] lg:max-w-[720px] h-auto drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)] overflow-visible"
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
-      <!-- Gradientes del Tallo -->
+      <!-- ================= GRADIENTES MODO AMARILLO ================= -->
       <linearGradient id="mainStemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" stop-color="#14532d" />
         <stop offset="35%" stop-color="#22c55e" />
@@ -19,7 +19,6 @@
         <stop offset="100%" stop-color="#0f3d1f" />
       </linearGradient>
 
-      <!-- Gradientes de Hojas -->
       <linearGradient id="leafGradPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#4ade80" />
         <stop offset="45%" stop-color="#16a34a" />
@@ -32,14 +31,12 @@
         <stop offset="100%" stop-color="#15803d" />
       </linearGradient>
 
-      <!-- Gotas de rocío -->
       <radialGradient id="dewDropGrad" cx="35%" cy="35%" r="65%">
         <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
         <stop offset="50%" stop-color="#bae6fd" stop-opacity="0.6" />
         <stop offset="100%" stop-color="#0284c7" stop-opacity="0.2" />
       </radialGradient>
 
-      <!-- Rayos Divinos Dorados -->
       <radialGradient id="godRayGrad" cx="50%" cy="50%" r="50%">
         <stop offset="0%" stop-color="#fef08a" stop-opacity="0.45" />
         <stop offset="30%" stop-color="#fde047" stop-opacity="0.25" />
@@ -47,7 +44,7 @@
         <stop offset="100%" stop-color="#f59e0b" stop-opacity="0" />
       </radialGradient>
 
-      <!-- Capa 1: Pétalos Exteriores (Dorado profundo y cálido) -->
+      <!-- Pétalos Amarillos -->
       <linearGradient id="petalGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
         <stop offset="0%" stop-color="#d97706" />
         <stop offset="25%" stop-color="#f59e0b" />
@@ -56,7 +53,6 @@
         <stop offset="100%" stop-color="#ffffff" />
       </linearGradient>
 
-      <!-- Capa 2: Pétalos Medios (Amarillo Sol Intenso) -->
       <linearGradient id="petalGrad2" x1="0%" y1="100%" x2="0%" y2="0%">
         <stop offset="0%" stop-color="#b45309" />
         <stop offset="20%" stop-color="#f59e0b" />
@@ -65,7 +61,6 @@
         <stop offset="100%" stop-color="#ffffff" />
       </linearGradient>
 
-      <!-- Capa 3: Pétalos Interiores (Azafrán Radiante) -->
       <linearGradient id="petalGrad3" x1="0%" y1="100%" x2="0%" y2="0%">
         <stop offset="0%" stop-color="#9a3412" />
         <stop offset="25%" stop-color="#d97706" />
@@ -74,7 +69,6 @@
         <stop offset="100%" stop-color="#ffffff" />
       </linearGradient>
 
-      <!-- Capa 4: Pétalos del Corazón (Miel Dorada) -->
       <linearGradient id="petalGrad4" x1="0%" y1="100%" x2="0%" y2="0%">
         <stop offset="0%" stop-color="#78350f" />
         <stop offset="35%" stop-color="#b45309" />
@@ -82,7 +76,6 @@
         <stop offset="100%" stop-color="#fef08a" />
       </linearGradient>
 
-      <!-- Centro de la Flor (Chocolate y ámbar aterciopelado) -->
       <radialGradient id="sunflowerCoreGrad" cx="50%" cy="50%" r="50%">
         <stop offset="0%" stop-color="#2a0f02" />
         <stop offset="35%" stop-color="#451a03" />
@@ -92,28 +85,59 @@
         <stop offset="100%" stop-color="#f59e0b" />
       </radialGradient>
 
-      <!-- Filtro de sombra profunda multicapa para pétalos -->
+      <!-- ================= GRADIENTES FLOR CELESTIAL / KATZE (BLANCA & ORO) ================= -->
+      <linearGradient id="whitePetalGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
+        <stop offset="0%" stop-color="#93c5fd" />
+        <stop offset="25%" stop-color="#e0f2fe" />
+        <stop offset="65%" stop-color="#ffffff" />
+        <stop offset="90%" stop-color="#fef08a" />
+        <stop offset="100%" stop-color="#ffffff" />
+      </linearGradient>
+
+      <linearGradient id="whitePetalGrad2" x1="0%" y1="100%" x2="0%" y2="0%">
+        <stop offset="0%" stop-color="#c084fc" />
+        <stop offset="30%" stop-color="#f3e8ff" />
+        <stop offset="70%" stop-color="#ffffff" />
+        <stop offset="95%" stop-color="#fef08a" />
+        <stop offset="100%" stop-color="#ffffff" />
+      </linearGradient>
+
+      <linearGradient id="whitePetalGrad3" x1="0%" y1="100%" x2="0%" y2="0%">
+        <stop offset="0%" stop-color="#38bdf8" />
+        <stop offset="35%" stop-color="#e0f2fe" />
+        <stop offset="75%" stop-color="#ffffff" />
+        <stop offset="100%" stop-color="#fde047" />
+      </linearGradient>
+
+      <radialGradient id="crystalCoreGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="25%" stop-color="#e0f2fe" />
+        <stop offset="55%" stop-color="#67e8f9" />
+        <stop offset="80%" stop-color="#3b82f6" />
+        <stop offset="95%" stop-color="#1e1b4b" />
+        <stop offset="100%" stop-color="#facc15" />
+      </radialGradient>
+
+      <radialGradient id="celestialGodRay" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+        <stop offset="30%" stop-color="#bae6fd" stop-opacity="0.3" />
+        <stop offset="70%" stop-color="#e0e7ff" stop-opacity="0.1" />
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+      </radialGradient>
+
+      <!-- Sombra 3D -->
       <filter id="petalShadow3D" x="-30%" y="-30%" width="160%" height="160%">
         <feDropShadow dx="0" dy="3" stdDeviation="2.5" flood-color="#451a03" flood-opacity="0.35" />
       </filter>
-
-      <!-- Filtro de resplandor dorado -->
-      <filter id="goldenGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
     </defs>
 
-    <!-- RAYOS SOLARES CELESTIALES (GOD RAYS) DE FONDO -->
+    <!-- RAYOS SOLARES O CELESTIALES -->
     @if (isBloomed) {
       <g class="god-rays-container" style="transform-origin: 250px 170px;">
         @for (ray of sunRays; track ray.angle) {
           <polygon
-            points="250,170 230,-40 270,-40"
-            fill="url(#godRayGrad)"
+            points="250,170 220,-80 280,-80"
+            [attr.fill]="isSecretMode ? 'url(#celestialGodRay)' : 'url(#godRayGrad)'"
             [style.transform-origin]="'250px 170px'"
             [style.transform]="'rotate(' + ray.angle + 'deg)'"
             class="animate-pulse"
@@ -122,32 +146,120 @@
       </g>
     }
 
-    <!-- TALLO ORGÁNICO CON CURVATURA NATURAL -->
-    <g class="stem-group">
-      <!-- Tallo sombra de fondo -->
+    <!-- ================= PRADERA / RAMILLETE DE FLORES COMPAÑERAS ================= -->
+    <g class="meadow-companions-layer">
+      @for (flower of meadowFlowers; track flower.id) {
+        <g
+          class="companion-flower"
+          [style.transform-origin]="(250 + flower.xOffset) + 'px ' + (170 + flower.yOffset) + 'px'"
+          [style.animation-delay]="flower.swayDelay + 's'"
+          [style.animation-duration]="flower.swayDuration + 's'"
+        >
+          <!-- Tallo acompañante -->
+          <path
+            [attr.d]="'M ' + (250 + flower.xOffset) + ' 550 Q ' + (250 + flower.xOffset * 0.7) + ' 380, ' + (250 + flower.xOffset) + ' ' + (170 + flower.yOffset)"
+            fill="none"
+            stroke="url(#mainStemGrad)"
+            [attr.stroke-width]="8 * flower.scale"
+            stroke-linecap="round"
+            class="stem-grow"
+            [class.grown]="isBloomed"
+          />
+
+          <!-- Hojas de flor acompañante -->
+          <g
+            class="leaf"
+            [class.grown]="isBloomed"
+            [style.transform-origin]="(250 + flower.xOffset) + 'px ' + (360 + flower.yOffset * 0.5) + 'px'"
+            [style.transition-delay]="flower.bloomDelay + 's'"
+          >
+            <path
+              [attr.d]="'M ' + (250 + flower.xOffset) + ' ' + (360 + flower.yOffset * 0.5) + ' Q ' + (250 + flower.xOffset - 40 * flower.scale) + ' ' + (330 + flower.yOffset * 0.5) + ', ' + (250 + flower.xOffset - 60 * flower.scale) + ' ' + (350 + flower.yOffset * 0.5) + ' Z'"
+              fill="url(#leafGradPrimary)"
+            />
+          </g>
+
+          <!-- Cabeza de flor acompañante -->
+          <g
+            [style.transform-origin]="(250 + flower.xOffset) + 'px ' + (170 + flower.yOffset) + 'px'"
+            [style.transform]="'scale(' + flower.scale + ')'"
+          >
+            <!-- Pétalos acompañantes -->
+            @for (p of companionPetals; track p.angle) {
+              <g
+                class="petal"
+                [class.bloomed]="isBloomed"
+                [style.--angle]="p.angle + 'deg'"
+                [style.transition-delay]="(flower.bloomDelay + (p.angle % 60) * 0.01) + 's'"
+                [style.transform-origin]="(250 + flower.xOffset) + 'px ' + (170 + flower.yOffset) + 'px'"
+              >
+                <path
+                  [attr.d]="'M ' + (250 + flower.xOffset) + ' ' + (170 + flower.yOffset) +
+                             ' C ' + (235 + flower.xOffset) + ' ' + (145 + flower.yOffset) + ', ' + (230 + flower.xOffset) + ' ' + (95 + flower.yOffset) + ', ' + (250 + flower.xOffset) + ' ' + (65 + flower.yOffset) +
+                             ' C ' + (270 + flower.xOffset) + ' ' + (95 + flower.yOffset) + ', ' + (265 + flower.xOffset) + ' ' + (145 + flower.yOffset) + ', ' + (250 + flower.xOffset) + ' ' + (170 + flower.yOffset) + ' Z'"
+                  [attr.fill]="isSecretMode ? 'url(#whitePetalGrad2)' : 'url(#petalGrad2)'"
+                  opacity="0.92"
+                />
+              </g>
+            }
+
+            <!-- Centro acompañante -->
+            <circle
+              [attr.cx]="250 + flower.xOffset"
+              [attr.cy]="170 + flower.yOffset"
+              r="24"
+              [attr.fill]="isSecretMode ? 'url(#crystalCoreGrad)' : 'url(#sunflowerCoreGrad)'"
+              stroke="#fbbf24"
+              stroke-width="1.5"
+              class="flower-center"
+              [class.bloomed]="isBloomed"
+              [style.transform-origin]="(250 + flower.xOffset) + 'px ' + (170 + flower.yOffset) + 'px'"
+              [style.transition-delay]="(flower.bloomDelay + 0.8) + 's'"
+            />
+          </g>
+        </g>
+      }
+    </g>
+
+    <!-- HIERBA Y TALLOS DEL SUELO DE LA PRADERA -->
+    <g class="meadow-grass-layer" opacity="0.8">
+      @for (blade of [-120, -70, -30, 20, 70, 120, 180, 230, 290, 340, 390]; track blade) {
+        <path
+          [attr.d]="'M ' + (250 + blade) + ' 550 Q ' + (250 + blade + 15) + ' 470, ' + (250 + blade + (blade % 2 === 0 ? 30 : -25)) + ' 430'"
+          fill="none"
+          stroke="#16a34a"
+          stroke-width="3"
+          stroke-linecap="round"
+          class="stem-grow"
+          [class.grown]="isBloomed"
+        />
+      }
+    </g>
+
+    <!-- ================= FLOR PRINCIPAL / REINA DEL RAMILLETE ================= -->
+    <!-- Tallo principal -->
+    <g class="hero-stem-group">
       <path
         d="M250 550 Q 240 430, 256 310 T 250 170"
         fill="none"
         stroke="#064e3b"
-        stroke-width="14"
+        stroke-width="15"
         stroke-linecap="round"
         class="stem-grow"
         [class.grown]="isBloomed"
       />
-      <!-- Tallo principal iluminado -->
       <path
         d="M250 550 Q 240 430, 256 310 T 250 170"
         fill="none"
         stroke="url(#mainStemGrad)"
-        stroke-width="10"
+        stroke-width="11"
         stroke-linecap="round"
         class="stem-grow"
         [class.grown]="isBloomed"
       />
     </g>
 
-    <!-- 4 HOJAS DETALLADAS CON NERVADURAS Y ROCÍO -->
-    <!-- 1. Hoja Inferior Izquierda -->
+    <!-- 4 Hojas Detalladas con Gotas de Rocío -->
     <g class="leaf leaf-lower-left" [class.grown]="isBloomed" style="transform-origin: 246px 420px;">
       <path
         d="M 246 420 C 170 415, 110 390, 85 435 C 120 485, 200 465, 246 425 Z"
@@ -162,12 +274,10 @@
         stroke-width="1.2"
         opacity="0.55"
       />
-      <!-- Gota de rocío en hoja -->
       <circle cx="130" cy="430" r="3.5" fill="url(#dewDropGrad)" />
       <circle cx="129" cy="429" r="1" fill="#ffffff" />
     </g>
 
-    <!-- 2. Hoja Inferior Derecha -->
     <g class="leaf leaf-lower-right" [class.grown]="isBloomed" style="transform-origin: 254px 370px;">
       <path
         d="M 254 370 C 335 355, 400 330, 420 375 C 385 425, 310 410, 254 375 Z"
@@ -186,7 +296,6 @@
       <circle cx="359" cy="371" r="0.9" fill="#ffffff" />
     </g>
 
-    <!-- 3. Hoja Superior Izquierda -->
     <g class="leaf leaf-upper-left" [class.grown]="isBloomed" style="transform-origin: 248px 300px;">
       <path
         d="M 248 300 C 185 285, 140 255, 125 290 C 150 335, 210 325, 248 303 Z"
@@ -203,7 +312,6 @@
       />
     </g>
 
-    <!-- 4. Hoja Superior Derecha (Joven y luminosa) -->
     <g class="leaf leaf-upper-right" [class.grown]="isBloomed" style="transform-origin: 252px 240px;">
       <path
         d="M 252 240 C 310 225, 360 200, 375 230 C 350 268, 298 260, 252 243 Z"
@@ -220,7 +328,7 @@
       />
     </g>
 
-    <!-- SÉPALOS / CÁLIZ VERDE DE LA FLOR (SE ABREN CON EL FLORECIMIENTO) -->
+    <!-- Cáliz Verde / Sépalos -->
     <g class="calyx-group" [class.bloomed]="isBloomed" style="transform-origin: 250px 170px;">
       <path d="M 250 170 C 230 195, 220 215, 235 225 C 245 220, 255 195, 250 170 Z" fill="#15803d" />
       <path d="M 250 170 C 265 195, 280 215, 265 225 C 255 220, 245 195, 250 170 Z" fill="#166534" />
@@ -228,20 +336,20 @@
       <path d="M 250 170 C 285 180, 305 195, 295 208 C 280 205, 262 188, 250 170 Z" fill="#14532d" />
     </g>
 
-    <!-- CABEZA DE LA FLOR (PÉTALOS MULTICAPA Y CORAZÓN FIBONACCI) -->
+    <!-- CABEZA DE LA FLOR REINA (4 CAPAS DE PÉTALOS) -->
     <g class="flower-head" style="transform-origin: 250px 170px;">
-      <!-- AURA RADIANTE CUANDO ESTÁ ABIERTA -->
+      <!-- Aura radiante -->
       @if (isBloomed) {
         <circle
           cx="250"
           cy="170"
-          r="140"
-          fill="url(#godRayGrad)"
+          r="145"
+          [attr.fill]="isSecretMode ? 'url(#celestialGodRay)' : 'url(#godRayGrad)'"
           class="center-aura pointer-events-none"
         />
       }
 
-      <!-- CAPA 1: PÉTALOS EXTERIORES MAYORES (18 Pétalos) -->
+      <!-- Capa 1: 18 Pétalos Exteriores -->
       <g class="petal-layer-1" style="transform-origin: 250px 170px;">
         @for (petal of layer1Petals; track petal.angle) {
           <g
@@ -251,36 +359,26 @@
             [style.transition-delay]="petal.delay + 's'"
             filter="url(#petalShadow3D)"
           >
-            <!-- Pétalo esculpido suavemente redondeado y afilado en la punta -->
             <path
               d="M 250 170
                  C 230 135, 222 80, 250 40
                  C 278 80, 270 135, 250 170 Z"
-              fill="url(#petalGrad1)"
-              stroke="#ca8a04"
+              [attr.fill]="isSecretMode ? 'url(#whitePetalGrad1)' : 'url(#petalGrad1)'"
+              [attr.stroke]="isSecretMode ? '#bae6fd' : '#ca8a04'"
               stroke-width="0.75"
             />
-            <!-- Nervadura central del pétalo -->
             <path
               d="M 250 165 Q 250 100, 250 55"
               fill="none"
-              stroke="#b45309"
+              [attr.stroke]="isSecretMode ? '#ffffff' : '#b45309'"
               stroke-width="0.9"
-              opacity="0.5"
-            />
-            <!-- Reflejo suave en el borde izquierdo -->
-            <path
-              d="M 248 160 Q 232 100, 248 50"
-              fill="none"
-              stroke="#ffffff"
-              stroke-width="0.8"
-              opacity="0.4"
+              opacity="0.6"
             />
           </g>
         }
       </g>
 
-      <!-- CAPA 2: PÉTALOS MEDIOS AMARILLO SOL (18 Pétalos) -->
+      <!-- Capa 2: 18 Pétalos Medios -->
       <g class="petal-layer-2" style="transform-origin: 250px 170px;">
         @for (petal of layer2Petals; track petal.angle) {
           <g
@@ -294,16 +392,9 @@
               d="M 250 170
                  C 232 140, 225 90, 250 52
                  C 275 90, 268 140, 250 170 Z"
-              fill="url(#petalGrad2)"
-              stroke="#d97706"
+              [attr.fill]="isSecretMode ? 'url(#whitePetalGrad2)' : 'url(#petalGrad2)'"
+              [attr.stroke]="isSecretMode ? '#e9d5ff' : '#d97706'"
               stroke-width="0.7"
-            />
-            <path
-              d="M 250 165 Q 250 105, 250 65"
-              fill="none"
-              stroke="#ca8a04"
-              stroke-width="0.8"
-              opacity="0.5"
             />
             <path
               d="M 248 160 Q 235 105, 248 60"
@@ -316,7 +407,7 @@
         }
       </g>
 
-      <!-- CAPA 3: PÉTALOS INTERIORES BRILLANTES (16 Pétalos) -->
+      <!-- Capa 3: 16 Pétalos Interiores -->
       <g class="petal-layer-3" style="transform-origin: 250px 170px;">
         @for (petal of layer3Petals; track petal.angle) {
           <g
@@ -330,22 +421,15 @@
               d="M 250 170
                  C 234 142, 228 100, 250 68
                  C 272 100, 266 142, 250 170 Z"
-              fill="url(#petalGrad3)"
-              stroke="#b45309"
+              [attr.fill]="isSecretMode ? 'url(#whitePetalGrad3)' : 'url(#petalGrad3)'"
+              [attr.stroke]="isSecretMode ? '#fde047' : '#b45309'"
               stroke-width="0.65"
-            />
-            <path
-              d="M 250 165 Q 250 115, 250 78"
-              fill="none"
-              stroke="#9a3412"
-              stroke-width="0.75"
-              opacity="0.6"
             />
           </g>
         }
       </g>
 
-      <!-- CAPA 4: PÉTALOS FLORALES DEL CORAZÓN (14 Pétalos) -->
+      <!-- Capa 4: 14 Pétalos del Corazón -->
       <g class="petal-layer-4" style="transform-origin: 250px 170px;">
         @for (petal of layer4Petals; track petal.angle) {
           <g
@@ -359,66 +443,66 @@
               d="M 250 170
                  C 236 148, 232 115, 250 85
                  C 268 115, 264 148, 250 170 Z"
-              fill="url(#petalGrad4)"
-              stroke="#9a3412"
+              [attr.fill]="isSecretMode ? 'url(#whitePetalGrad1)' : 'url(#petalGrad4)'"
+              [attr.stroke]="isSecretMode ? '#ffffff' : '#9a3412'"
               stroke-width="0.6"
             />
           </g>
         }
       </g>
 
-      <!-- CENTRO DE GIRASOL CON ESPIRAL DE FIBONACCI (FILOTAXIS DE 68 FLORETES) -->
+      <!-- CENTRO DE LA FLOR (GIRASOL FIBONACCI O ESTRELLA CRISTALINA PARA KATZE) -->
       <g class="flower-center" [class.bloomed]="isBloomed" style="transform-origin: 250px 170px;">
-        <!-- Anillo de luz aureolar -->
+        <!-- Aro exterior -->
         <circle
           cx="250"
           cy="170"
           r="45"
           fill="none"
-          stroke="#fde047"
+          [attr.stroke]="isSecretMode ? '#ffffff' : '#fde047'"
           stroke-width="3.5"
-          stroke-opacity="0.8"
+          stroke-opacity="0.85"
           class="animate-pulse"
         />
 
-        <!-- Disco base de chocolate aterciopelado -->
+        <!-- Disco central -->
         <circle
           cx="250"
           cy="170"
           r="42"
-          fill="url(#sunflowerCoreGrad)"
-          stroke="#78350f"
+          [attr.fill]="isSecretMode ? 'url(#crystalCoreGrad)' : 'url(#sunflowerCoreGrad)'"
+          [attr.stroke]="isSecretMode ? '#ffffff' : '#78350f'"
           stroke-width="2.5"
         />
 
-        <!-- Floretes individuales dispuestos en espiral dorada de Fibonacci -->
+        <!-- Floretes / Semillas de Fibonacci -->
         @for (seed of spiralSeeds; track seed.x + '-' + seed.y) {
           <circle
             [attr.cx]="seed.x"
             [attr.cy]="seed.y"
             [attr.r]="seed.size"
-            [attr.fill]="seed.color"
-            [attr.stroke]="seed.glow ? '#fef08a' : '#290e02'"
+            [attr.fill]="isSecretMode ? (seed.glow ? '#ffffff' : '#bae6fd') : seed.color"
+            [attr.stroke]="seed.glow ? '#fef08a' : (isSecretMode ? '#38bdf8' : '#290e02')"
             [attr.stroke-width]="seed.glow ? '0.8' : '0.4'"
             [class.seed-sparkle]="seed.glow"
           />
         }
 
-        <!-- Centro estigma súper radiante -->
-        <circle cx="250" cy="170" r="5" fill="#fef08a" class="animate-ping opacity-60" />
-        <circle cx="250" cy="170" r="4.5" fill="#ffffff" />
+        <!-- Centro estelar brillante -->
+        <circle cx="250" cy="170" r="6" [attr.fill]="isSecretMode ? '#ffffff' : '#fef08a'" class="animate-ping opacity-75" />
+        <circle cx="250" cy="170" r="5" fill="#ffffff" />
       </g>
     </g>
 
-    <!-- PARTÍCULAS MÁGICAS EN ÓRBITA ALREDEDOR DE LA FLOR -->
+    <!-- PARTÍCULAS MÁGICAS EN ÓRBITA -->
     @if (isBloomed) {
       <g class="aura-sparks-group" style="transform-origin: 250px 170px;">
         @for (spark of auraSparks; track spark.delay) {
           <circle
             cx="250"
             cy="170"
-            r="2"
-            fill="#fde047"
+            r="2.4"
+            [attr.fill]="isSecretMode ? '#ffffff' : '#fde047'"
             class="orbiting-spark"
             [style.animation-delay]="spark.delay + 's'"
             [style.animation-duration]="spark.duration + 's'"
